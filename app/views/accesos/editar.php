@@ -23,7 +23,7 @@
         
                   <select class="form-control select2" name="id_grupo" id="id_grupo"  style="width: 100%;">
                     <option selected="selected" placeholder="Ingrese grupo "  ><?php echo $datos['id_grupo']?></option>
-                    <?php foreach ($datos['grupo'] as $data):?> 
+                    <?php foreach ($datos['grupos'] as $data):?> 
 
 <option value="<?php echo $data->id_grupo ?>" ><?php echo $data->grupo; ?></option>
 <?php endforeach; ?>
@@ -52,7 +52,7 @@
               
               <!-- /.form-group -->
               <div class="form-group">
-                <label>Areas</label></label>
+                <label>Rol</label></label>
                 <select class="form-control select2" name="id_rol" id="id_rol" style="width: 100%;">
                   <option selected="selected"><?php echo $datos['id_rol']?></option>
                   <?php foreach ($datos['rol'] as $data):?> 

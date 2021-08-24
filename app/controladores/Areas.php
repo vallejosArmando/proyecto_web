@@ -6,20 +6,50 @@ private $model;
   
     {
         $this->model=$this->modelo('Area');
+
+        $this->grupo=$this->modelo('Grupo');
+        $this->opcion=$this->modelo('Opcion');
         //echo 'pagina controlador cargada';
     }
     public function index(){
-        $areas=$this->model->listar();
-        $datos=[
-            'titulo'=>'Bienvenidos a MVC ARMANDO SIIII.WEB ',
-            'areas'=>$areas
-        ];
+
+
+        $area=$this->model->listar();
+        $opcion=$this->opcion->listar();
+
+
+    $grupos=$this->grupo->listar();
+        $oo=['id_grupo'=>$grupos];
+        foreach($oo['id_grupo'] as $op){
+            $id_grupo=$op->id;
+        }
+        $opciones=$this->opcion->opcion($id_grupo);
+    $datos=[
+        'area'=>$area,
+        'opciones'=>$opcion,
+        'grupos'=>$grupos
+    ];
         $this->vista('areas/inicio',$datos);
 
     }
     public function insertar(){
 
-     $this->vista('areas/agregar');
+        $area=$this->model->listar();
+        $opcion=$this->opcion->listar();
+
+
+    $grupos=$this->grupo->listar();
+        $oo=['id_grupo'=>$grupos];
+        foreach($oo['id_grupo'] as $op){
+            $id_grupo=$op->id;
+        }
+        $opciones=$this->opcion->opcion($id_grupo);
+    $datos=[
+        'area'=>$area,
+        'opciones'=>$opcion,
+        'grupos'=>$grupos
+    ];
+        $this->vista('areas/agregar',$datos);
 
 
     }
@@ -42,6 +72,7 @@ if($this->model->insertar($datos)){
 }
 
  }else{
+     
      $datos=[
          'nombre'=>'',
          'descripcion'=>'',
@@ -70,22 +101,40 @@ if($this->model->insertar($datos)){
        
         }else{
             $area=$this->model->optenerId($id);
+            $opcion=$this->opcion->listar();
 
+            $grupos=$this->grupo->listar();
+            $oo=['id_grupo'=>$grupos];
+            foreach($oo['id_grupo'] as $op){
+                $id_grupo=$op->id;
+            }
+            $opciones=$this->opcion->opcion($id_grupo);
             $datos=[
                 'id'=>$area->id,
                 'nombre'=>$area->nombre,
                 'descripcion'=>$area->descripcion,
+                'opciones'=>$opcion,
+                'grupos'=>$grupos
             ];
             $this->vista('areas/editar',$datos);
         }
            }
            public function borrar($id){
             $area=$this->model->optenerId($id);
+            $opcion=$this->opcion->listar();
 
+            $grupos=$this->grupo->listar();
+            $oo=['id_grupo'=>$grupos];
+            foreach($oo['id_grupo'] as $op){
+                $id_grupo=$op->id;
+            }
+            $opciones=$this->opcion->opcion($id_grupo);
             $datos=[
                 'id'=>$area->id,
                 'nombre'=>$area->nombre,
                 'descripcion'=>$area->descripcion,
+                'opciones'=>$opcion,
+                'grupos'=>$grupos
             ];
             if($_SERVER['REQUEST_METHOD']=='POST'){
        

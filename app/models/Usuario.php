@@ -22,7 +22,7 @@ $this->db=new Base;
 
 public function listar(){
 
-$this->db->query('SELECT us.*, p.nombres as nombres FROM usuarios us INNER JOIN personas p ON us.id_persona=p.id WHERE us.estado=1
+$this->db->query('SELECT * FROM usuarios   WHERE estado=1
 ');
 return $this->db->registros();
 

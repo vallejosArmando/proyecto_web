@@ -31,7 +31,8 @@
           </tr>
           </thead>
           <tbody>
-<?php  foreach ($datos['persona']as $data):?>
+            
+<?php  foreach ($datos['persona'] as $data):?>
 
 
 <tr>

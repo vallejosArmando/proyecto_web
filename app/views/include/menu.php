@@ -21,9 +21,7 @@
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
       <?php
-    $dato = $this->menu->grupo();
-    $id_grupo = ['id_grupo' => $dato,];
-    foreach ($id_grupo['id_grupo'] as $d) {?>
+    foreach ($datos['grupos'] as $d) {?>
 
       <li class=" nav-item">
 <a  href="#"  class="nav-link" >
@@ -34,21 +32,21 @@
        </a>
       <ul class="nav nav-treeview">
       <?php
-       $id_grupo = $d->id;
-      $da = $this->menu->opcion($id_grupo);
+       
+if(isset($d->id)){
+   
+  
+   foreach ($datos['opciones'] as $opcion){
+     if($d->id==$opcion->id_grupo){?>
 
-      $datos = [
-        'grupo' => $da,
-      ];
-      
-      foreach ($datos['grupo'] as $data) {?>
         <li class="nav-item"> 
-        <a  href=" <?php echo $data->op_url?>" class="nav-link" > 
+     
+        <a  href=" <?php echo $opcion->op_url?>" class="nav-link" > 
         <i class="far fa-circle nav-icon"></i>
-        <p><?php echo $data->nombre ?></p>    
+        <p><?php echo $opcion->nombre ?></p>    
         </a>
         </li>
-    <?php  } ?>
+    <?php  }}}?>
          </ul>
       </li>
     

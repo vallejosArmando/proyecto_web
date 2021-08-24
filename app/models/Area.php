@@ -10,7 +10,7 @@ return $this->db->registros();
 }
 public function insertar($datos){
   // insertar
-   $this->db->query('INSERT INTO `areas`(`id`, `id_sistema`, `nombre`, `descripcion`, `fec_insercion`, `fec_modificacion`, `usuario`, `estado`) VALUES (null,1,:nombre,:descripcion,now(),now(),1,1)');
+   $this->db->query('INSERT INTO areas(id, id_sistema, nombre, descripcion, fec_insercion, fec_modificacion, usuario, estado) VALUES (null,1,:nombre,:descripcion,now(),now(),1,1)');
    
 
    $this->db->bind(':nombre',$datos['nombre']);
@@ -32,7 +32,7 @@ public function optenerId($id){
   return $fila;
 }
 public function actualizar($datos){
-  $this->db->query('UPDATE `areas` SET `nombre`=:nombre,`descripcion`=:descripcion WHERE id=:id ' );
+  $this->db->query('UPDATE areas SET nombre=:nombre, descripcion=:descripcion WHERE id=:id ' );
 
   $this->db->bind(':id',$datos['id']);
 

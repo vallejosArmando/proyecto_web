@@ -11,10 +11,11 @@ $this->db= new Base;
 
 public function opcion($id_grupo){ 
   ///get the sub menu id 
-  $this->db->query("SELECT * FROM opciones op INNER JOIN accesos acc ON acc.id_opcion=op.id INNER JOIN grupos gr ON op.id_grupo=gr.id and op.id_grupo=:id_grupo ");
+  $this->db->query("SELECT * FROM opciones op INNER JOIN accesos acc ON op.id=acc.id_opcion INNER JOIN grupos gr ON op.id_grupo=gr.id WHERE op.id_grupo=:id_grupo and acc.permisos='a' ");
   $this->db->bind(':id_grupo',$id_grupo);
 
-  return $this->db->registros();
+    
+   return $this->db->registros();
   
 }
 public function opcionMenu($id_grupo){ 
@@ -39,10 +40,9 @@ where op.estado=1 AND op.id_grupo=:id AND op.mostrar='si' AND acc.permisos='a' o
   $this->db->query("SELECT *FROM grupos WHERE estado=1");
   return $this->db->registros();
   }
-  public function acceso($id_opcion,$id_rol){
-    $this->db->query("SELECT  * FROM accesos acc INNER JOIN opciones op ON acc.id_opcion=op.id INNER JOIN roles r ON acc.id_rol=r.id WHERE acc.permisos='a' AND op.mostrar='si' AND acc.id_opcion=:id_opcion AND acc.id_rol=:id ");
+  public function acceso($id_opcion){
+    $this->db->query("SELECT  * FROM accesos acc INNER JOIN opciones op ON acc.id_opcion=op.id INNER JOIN roles r ON acc.id_rol=r.id WHERE acc.permisos='a' AND op.mostrar='si' AND acc.id_opcion=:id_opcion AND acc.id_rol=1 ");
     $this->db->bind(':id_opcion',$id_opcion);
-    $this->db->bind(':id',$id_rol);
     return $this->db->registros();
 
   }

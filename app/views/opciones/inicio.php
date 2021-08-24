@@ -9,7 +9,7 @@
         <h3 class="card-title">DataTable with default features</h3>
       </div>
       <div class="card-header">
-      <td> <a href="<?php echo RUTA_URL?>/opciones/agregar" class="btn btn-primary" >Agregar</a> </td>
+      <td> <a href="<?php echo RUTA_URL?>/opciones/insertar" class="btn btn-primary" >Agregar</a> </td>
       </div>
       <!-- /.card-header -->
       <div class="card-body">
@@ -33,7 +33,7 @@
 
 <tr>
 <td><?php echo $data->id; ?></td>
-<td><?php echo $data->grupo; ?></td>
+<td><?php echo $data->id_grupo; ?></td>
 <td><?php echo $data->nombre; ?></td>
 <td><?php echo $data->op_url; ?></td>
 <td><?php echo $data->mostrar; ?></td>

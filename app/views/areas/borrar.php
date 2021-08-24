@@ -15,11 +15,11 @@
                 <div class="card-body">
                   <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input type="text" name="nombre" class="form-control" id="nombre" value="<?php echo $datos['nombre'];?>" placeholder="Ingrese nombre ">
+                    <input type="text" name="nombre" class="form-control" id="nombre" value="<?php echo $datos['nombre'];?>" >
                   </div>
                   <div class="form-group">
                     <label for="descripcion">Descripcion</label>
-                    <input type="text" name="descripcion" class="form-control" id="descripcion" value="<?php echo $datos['descripcion'];?>" placeholder="descripcion">
+                    <input type="text" name="descripcion" class="form-control" id="descripcion" value="<?php echo $datos['descripcion'];?>" >
                   </div>
               
                   

@@ -6,8 +6,8 @@ class Acceso {
 
     }
 public function listar(){
-  //$this->db->query('SELECT *FROM accesos WHERE estado  = 1');
-  //return $this->db->registros();
+  //$this->db->query('SELECT *FROM accesos //WHERE estado  = 1');
+ // return $this->db->registros();
  $this->db->query("SELECT * FROM accesos acc  INNER JOIN opciones op ON op.id=acc.id_opcion INNER JOIN roles r ON acc.id_rol=r.id and op.mostrar='si' and acc.permisos = 'a' AND acc.estado=1 ");
  return $this->db->registros();
 
@@ -105,6 +105,13 @@ public function accesos($id_opcion,$id_rol){
   return $this->db->registros();
 
 }
-}
+public function opcion($id_grupo){ 
+  ///get the sub menu id 
+  $this->db->query("SELECT * FROM opciones op INNER JOIN accesos acc ON op.id=acc.id_opcion INNER JOIN grupos gr ON op.id_grupo=gr.id WHERE op.id_grupo=:id_grupo and acc.permisos='a' ");
+  $this->db->bind(':id_grupo',$id_grupo);
 
+    
+   return $this->db->registros();
+}
+}
 ?>

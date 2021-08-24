@@ -5,14 +5,23 @@ class Opcion {
   $this->db=new Base;
     }
 public function listar(){
-$this->db->query('SELECT op.*, gr.grupo as grupo  FROM opciones op INNER JOIN grupos gr ON op.id_grupo=gr.id WHERE  op.estado=1 
+$this->db->query('SELECT * FROM opciones WHERE  estado=1 
 ');
 return $this->db->registros();
 }
 public function opcion($id_grupo){ 
   ///get the sub menu id 
-  $this->db->query("SELECT * FROM opciones op INNER JOIN accesos acc ON acc.id_opcion=op.id INNER JOIN grupos gr ON op.id_grupo=gr.id and op.id_grupo=:id_grupo ");
+  $this->db->query("SELECT * FROM opciones op INNER JOIN accesos acc ON op.id=acc.id_opcion INNER JOIN grupos gr ON op.id_grupo=gr.id WHERE op.id_grupo=:id_grupo and acc.permisos='a' and op.estado=1 ");
   $this->db->bind(':id_grupo',$id_grupo);
+
+    
+   return $this->db->registros();
+  
+}
+public function opcionn($dato){ 
+  ///get the sub menu id 
+  $this->db->query("SELECT * FROM opciones op INNER JOIN accesos acc ON acc.id_opcion=op.id INNER JOIN grupos gr ON op.id_grupo=gr.id and op.id_grupo=:id_grupo ");
+  $this->db->bind(':id_grupo',$dato);
 
   return $this->db->registros();
   

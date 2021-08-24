@@ -32,7 +32,7 @@ private $grupo;
             'opciones'=>$opcion,
             'roles'=>$rol
         ];
-        $this->vista('usuario_roles/inicio', $datos);
+        $this->vista('usuarioRoles/inicio', $datos);
     }
 
     public function agregar()
@@ -66,7 +66,7 @@ private $grupo;
                 'opciones'=>$opcion,
                 'roles'=>$roles,
             ];
-            $this->vista('usuario_roles/agregar', $datos);
+            $this->vista('usuarioRoles/agregar', $datos);
         }
     }
     public function editar($id)
@@ -104,7 +104,7 @@ private $grupo;
                 'opciones'=>$opcion,
                 'roles'=>$roles,
             ];
-            $this->vista('usuario_roles/editar', $datos);
+            $this->vista('usuarioRoles/editar', $datos);
         }
     }
     public function borrar($id)
@@ -131,6 +131,6 @@ private $grupo;
                 die('algo sali mal');
             }
         }
-        $this->vista('usuario_roles/borrar', $datos);
+        $this->vista('usuarioRoles/borrar', $datos);
     }
 }

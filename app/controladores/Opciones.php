@@ -1,32 +1,59 @@
 <?php 
 
 class Opciones extends Controlador{
-private $model;
+private $opcion;
 private $grupo;
-private $men;    public function __construct()
+private $menu;  
+private $acceso; 
+ public function __construct()
   
     {
         $this->grupo=$this->modelo('Grupo');
-        $this->men = $this->modelo('Men');
+        $this->acceso=$this->modelo('Acceso');
 
-        $this->model=$this->modelo('Opcion');
+        $this->opcion=$this->modelo('Opcion');
+        $this->menu=$this->modelo('Menu');
+
         //echo 'pagina controlador cargada';
     }
     public function index(){
-        $opciones=$this->model->listar();
+        $opcion=$this->opcion->listar();
         $grupos=$this->grupo->listar();
+        $oo=['id_grupo'=>$grupos];
+        foreach($oo['id_grupo'] as $op){
+            $id_grupo=$op->id;
+        }
+        $opciones=$this->opcion->opcion($id_grupo);
+       
+                $datos=[
+                    'titulo'=>'Bienvenidos a MVC ARMANDO SIIII.WEB ',
+                    'opciones'=>$opcion,
+                    'grupos'=>$grupos,
+                ];
+                $this->vista('opciones/inicio',$datos);
+            
+        
 
-        $datos=[
-            'titulo'=>'Bienvenidos a MVC ARMANDO SIIII.WEB ',
-            'opciones'=>$opciones,
-            'grupos'=>$grupos,
-        ];
-        $this->vista('opciones/inicio',$datos);
 
     }
     public function insertar(){
+        $opcion=$this->opcion->listar();
 
-     $this->vista('opciones/agregar');
+        $grupos=$this->grupo->listar();
+        $oo=['id_grupo'=>$grupos];
+        foreach($oo['id_grupo'] as $op){
+            $id_grupo=$op->id;
+        }
+        $opciones=$this->opcion->opcion($id_grupo);
+       
+                $datos=[
+                    'titulo'=>'Bienvenidos a MVC ARMANDO SIIII.WEB ',
+                    'opciones'=>$opcion,
+                    'grupos'=>$grupos,
+                ];
+                $this->vista('opciones/agregar',$datos);
+
+     //$this->vista('opciones/agregar');
 
 
     }
@@ -43,7 +70,7 @@ private $men;    public function __construct()
 'orden'=>trim($_POST['orden']),
 
     ];
-if($this->model->insertar($datos)){
+if($this->opcion->insertar($datos)){
 
     redireccionar('/opciones');
 
@@ -53,7 +80,7 @@ if($this->model->insertar($datos)){
 }
 
  }else{
-     $grupo=$this->model->listarGrupo();
+     $grupo=$this->opcion->listarGrupo();
      $grupo=$this->grupo->listar();
      $datos=[
          'id_grupo'=>'',
@@ -83,7 +110,7 @@ if($this->model->insertar($datos)){
             
        
            ];
-       if($this->model->actualizar($datos)){
+       if($this->opcion->actualizar($datos)){
        
            redireccionar('/opciones');
        
@@ -93,34 +120,52 @@ if($this->model->insertar($datos)){
        }
        
         }else{
-            $opcion=$this->model->optenerId($id);
-            $grupo=$this->model->listarGrupo();
+            $opcionn=$this->opcion->optenerId($id);
+            $opcion=$this->opcion->listar();
 
+            $grupos=$this->grupo->listar();
+            $oo=['id_grupo'=>$grupos];
+            foreach($oo['id_grupo'] as $op){
+                $id_grupo=$op->id;
+            }
+            $opciones=$this->opcion->opcion($id_grupo);
+           
+              
 
             $datos=[
-                'id'=>$opcion->id,
-                'id_grupo'=>$opcion->id_grupo,
-                'nombre'=>$opcion->nombre,
-                'op_url'=>$opcion->op_url,
-                'mostrar'=>$opcion->mostrar,
-                'orden'=>$opcion->orden,
-                'grupo'=>$grupo,
+                'id'=>$opcionn->id,
+                'id_grupo'=>$opcionn->id_grupo,
+                'nombre'=>$opcionn->nombre,
+                'op_url'=>$opcionn->op_url,
+                'mostrar'=>$opcionn->mostrar,
+                'orden'=>$opcionn->orden,
+                'opciones'=>$opcion,
+                'grupos'=>$grupos,
             ];
             $this->vista('/opciones/editar',$datos);
         }
            }
            public function borrar($id){
-            $opcion=$this->model->optenerId($id);
+            $opcionn=$this->opcion->optenerId($id);
+            $opcion=$this->opcion->listar();
+
             $grupos=$this->grupo->listar();
+            $oo=['id_grupo'=>$grupos];
+            foreach($oo['id_grupo'] as $op){
+                $id_grupo=$op->id;
+            }
+            $opciones=$this->opcion->opcion($id_grupo);
+           
 
             $datos=[
-                'id'=>$opcion->id,
-                'id_grupo'=>$opcion->id_grupo,
-                'nombre'=>$opcion->nombre,
-                'op_url'=>$opcion->op_url,
-                'mostrar'=>$opcion->mostrar,
-                'orden'=>$opcion->orden,
+                'id'=>$opcionn->id,
+                'id_grupo'=>$opcionn->id_grupo,
+                'nombre'=>$opcionn->nombre,
+                'op_url'=>$opcionn->op_url,
+                'mostrar'=>$opcionn->mostrar,
+                'orden'=>$opcionn->orden,
                 'grupos'=>$grupos,
+                'opciones'=>$opcion,
 
             ];
             if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -129,7 +174,7 @@ if($this->model->insertar($datos)){
                  'id'=>$id,
             
                 ];
-            if($this->model->eliminar($datos)){
+            if($this->opcion->eliminar($datos)){
             
                 redireccionar('/opciones');
             

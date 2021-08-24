@@ -1,32 +1,43 @@
 <?php 
-
 class Accesos extends Controlador{
-public $model;
-public $grupo;
-public $opcion;
-public $rol;
-public $menu;
-
+    private $acceso;
+    private $grupo;
+    private $opcion;
+    private $rol;
+    private $menu;
+    
     public function __construct()
-  
+    
     {
-        $this->model=$this->modelo('Acceso');
+        $this->acceso=$this->modelo('Acceso');
         $this->grupo=$this->modelo('Grupo');
         $this->opcion=$this->modelo('Opcion');
         $this->rol=$this->modelo('Rol');
-        $this->menu=$this->modelo('Menu');
-
-  
+        
+        
         //echo 'pagina controlador cargada';
     }
     public function index(){
-        $this->model->listar();
-        $this->grupo->listar();
-        $this->opcion->listar();
-        $this->rol->listar();
+        $acceso= $this->acceso->listar();
+        $grupos=$this->grupo->listar();
+        $opcion=$this->acceso->listarOpcion();
+        $oo=['id_grupo'=>$grupos];
+        foreach($oo['id_grupo'] as $op){
+            $id_grupo=$op->id;
+        }
+        $opciones=$this->opcion->opcion($id_grupo);
+        $rol= $this->rol->listar();
 
+$datos=[
+    'acceso'=>$acceso,
+    'grupos'=>$grupos,
+    'opciones'=>$opcion,
+    'rol'=>$rol
+  
 
-        $this->vista('accesos/inicio');
+];
+
+        $this->vista('accesos/inicio',$datos);
 
     }
   
@@ -39,7 +50,7 @@ $datos=[
 'permisos'=>trim($_POST['permisos']),
 
 ];
-if($this->model->insertar($datos)){
+if($this->acceso->insertar($datos)){
 
     redireccionar('/accesos');
 
@@ -49,8 +60,9 @@ if($this->model->insertar($datos)){
 }
 
  }else{
-    $opcion=$this->model->listarOpcion();
-    $rol=$this->model->listarRol();
+    $opcion=$this->acceso->listarOpcion();
+    $rol=$this->acceso->listarRol();
+  
 
      $datos=[
   
@@ -59,6 +71,7 @@ if($this->model->insertar($datos)){
         'id_rol'=>'',
         'permisos'=>'',
         'opcion'=>$opcion,
+      
         'rol'=>$rol,
      ];
      $this->vista('accesos/agregar',$datos);
@@ -75,7 +88,7 @@ if($this->model->insertar($datos)){
             
        
            ];
-       if($this->model->actualizar($datos)){
+       if($this->acceso->actualizar($datos)){
        
            redireccionar('/accesos');
        
@@ -88,11 +101,15 @@ if($this->model->insertar($datos)){
 
 
             
-            $acceso=$this->model->optenerId($id);
-            $opcion=$this->model->listarOpcion();
-            $rol=$this->model->listarRol();
+            $acceso=$this->acceso->optenerId($id);
+            $opcion=$this->acceso->listarOpcion();
+            $rol=$this->acceso->listarRol();
             $grupos=$this->grupo->listar();
-            $opciones=$this->opcion->listar();
+            $oo=['id_grupo'=>$grupos];
+            foreach($oo['id_grupo'] as $op){
+                $id_grupo=$op->id;
+            }
+            $opciones=$this->opcion->opcion($id_grupo);
             $datos=[
                 'id'=>$acceso->id,
                 'id_grupo'=>$acceso->id_grupo,
@@ -102,14 +119,15 @@ if($this->model->insertar($datos)){
                 'opcion'=>$opcion,
                 'rol'=>$rol, 
                 'opciones'=>$opcion,
+                'grupos'=>$grupos
             ];
             $this->vista('accesos/editar',$datos);
         }
            }
            public function borrar($id){
-            $acceso=$this->model->optenerId($id);
-            $opcion=$this->model->listarOpcion();
-            $rol=$this->model->listarRol();
+            $acceso=$this->acceso->optenerId($id);
+            $opcion=$this->acceso->listarOpcion();
+            $rol=$this->acceso->listarRol();
             $grupo=$this->grupo->listar();
             $opcion=$this->opcion->listar();
             $datos=[
@@ -117,7 +135,7 @@ if($this->model->insertar($datos)){
                 'id_opcion'=>$acceso->id_opcion,
                 'id_rol'=>$acceso->id_rol,
                 'permisos'=>$acceso->permisos,
-                'grupo'=>$grupo,
+                'grupos'=>$grupo,
                 'opcion'=>$opcion,
                 'rol'=>$rol,
                 'opciones'=>$opcion,
@@ -128,7 +146,7 @@ if($this->model->insertar($datos)){
                  'id'=>$id,
             
                 ];
-            if($this->model->eliminar($datos)){
+            if($this->acceso->eliminar($datos)){
             
                 redireccionar('/accesos');
             
@@ -146,9 +164,11 @@ if($this->model->insertar($datos)){
     'id_opcion'=>trim($_POST['id_opcion']),
     'id_rol'=>trim($_POST['id_rol']),
     'permisos'=>trim($_POST['permisos']),
+    'id_grupo'=>trim($_POST['id_grupo']),
+
     
     ];
-    if($this->model->insertar($datos)){
+    if($this->acceso->insertar($datos)){
     
         redireccionar('/accesos');
     
@@ -158,9 +178,9 @@ if($this->model->insertar($datos)){
     }
     
      }else{
-        $opcion=$this->model->listarOpcion();
-        $rol=$this->model->listarRol();
-        $permisos=$this->model->permisos();
+        $opcion=$this->acceso->listarOpcion();
+        $rol=$this->acceso->listarRol();
+        $permisos=$this->acceso->permisos();
         $grupo=$this->grupo->listar();
         $opcion=$this->opcion->listar();
     

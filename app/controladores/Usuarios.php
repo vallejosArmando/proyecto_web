@@ -5,10 +5,12 @@ class Usuarios extends Controlador
     private $model;
     private $grupo;
     private $opcion;
+    private $rol;
     public function __construct()
     {
         
         $this->model = $this->modelo('Usuario');
+        $this->rol=$this->modelo('Rol');
         $this->grupo=$this->modelo('Grupo');
         $this->opcion=$this->modelo('Opcion');
           
@@ -16,14 +18,20 @@ class Usuarios extends Controlador
     
     }
     
-    public function index()
-    {        $acceso=$this->grupo->listar();
-        $opcion=$this->opcion->listar();
-        $usuario = $this->model->listar();
+    public function index(){
+    $usuario = $this->model->listar();
+    $opcion=$this->opcion->listar();
+
+    $grupos=$this->grupo->listar();
+    $oo=['id_grupo'=>$grupos];
+    foreach($oo['id_grupo'] as $op){
+        $id_grupo=$op->id;
+    }
+    $opciones=$this->opcion->opcion($id_grupo);
         $datos = [
             'titulo' => 'Tabla Usuario',
             'datos' => $usuario,
-            'grupos'=>$acceso,
+            'grupos'=>$grupos,
             'opciones'=>$opcion
         ];
 

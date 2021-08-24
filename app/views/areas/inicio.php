@@ -26,7 +26,7 @@
           </tr>
           </thead>
           <tbody>
-<?php  foreach ($datos['areas']as $data):?>
+<?php  foreach ($datos['area'] as $data):?>
 
 
 <tr>

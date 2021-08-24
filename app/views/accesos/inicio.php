@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($this->model->listar() as $data): ?>
+                <?php foreach($datos['acceso'] as $data): ?>
 
 
                     <tr>

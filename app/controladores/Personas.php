@@ -1,32 +1,36 @@
 <?php 
 
 class Personas extends Controlador{
-private $model;
+private $persona;
 private $grupo;
 private $opcion;
-private $men;
     public function __construct()
   
     {
-        $this->model=$this->modelo('Persona');
-        $this->men = $this->modelo('Men');
+        $this->persona=$this->modelo('Persona');
 
         $this->grupo=$this->modelo('Grupo');
         $this->opcion=$this->modelo('Opcion');
         //echo 'pagina controlador cargada';
     }
     public function index(){
-        $persona=$this->model->listar();
-        $grupo=$this->grupo->listar();
-        $opcion=$this->opcion->listar();
-        $dato=$this->men->listar();
 
-        $datos=[
-            'titulo'=>'Bienvenidos a MVC ARMANDO SIIII.WEB ',
-            'persona'=>$persona,
-        
-            'datos'=>$dato,
-        ];
+
+        $persona=$this->persona->listar();
+        $opcion=$this->opcion->listar();
+
+
+    $grupos=$this->grupo->listar();
+        $oo=['id_grupo'=>$grupos];
+        foreach($oo['id_grupo'] as $op){
+            $id_grupo=$op->id;
+        }
+        $opciones=$this->opcion->opcion($id_grupo);
+    $datos=[
+        'persona'=>$persona,
+        'opciones'=>$opcion,
+        'grupos'=>$grupos
+    ];
         $this->vista('personas/inicio',$datos);
 
     }
@@ -44,7 +48,7 @@ $datos=[
 'genero'=>trim($_POST['genero']),
 
 ];
-if($this->model->insertar($datos)){
+if($this->persona->insertar($datos)){
 
     redireccionar('/personas');
 
@@ -54,8 +58,12 @@ if($this->model->insertar($datos)){
 }
 
  }else{
-    $grupo=$this->grupo->listar();
-    $opcion=$this->opcion->listar();
+    $grupos=$this->grupo->listar();
+    $oo=['id_grupo'=>$grupos];
+    foreach($oo['id_grupo'] as $op){
+        $id_grupo=$op->id;
+    }
+    $opciones=$this->opcion->opcion($id_grupo);
      $datos=[
   
         'ci'=>'',
@@ -65,8 +73,8 @@ if($this->model->insertar($datos)){
         'telefono'=>'',
         'direccion'=>'',
         'genero'=>'',
-        'grupos'=>$grupo,
-        'opciones'=>$opcion
+        'grupos'=>$grupos,
+        'opciones'=>$opciones
         
      ];
      $this->vista('personas/agregar',$datos);
@@ -87,7 +95,7 @@ if($this->model->insertar($datos)){
             
        
            ];
-       if($this->model->actualizar($datos)){
+       if($this->persona->actualizar($datos)){
        
            redireccionar('/personas');
        
@@ -100,9 +108,13 @@ if($this->model->insertar($datos)){
 
 
             
-            $persona=$this->model->optenerId($id);
-            $grupo=$this->grupo->listar();
-            $opcion=$this->opcion->listar();
+            $persona=$this->persona->optenerId($id);
+            $grupos=$this->grupo->listar();
+            $oo=['id_grupo'=>$grupos];
+            foreach($oo['id_grupo'] as $op){
+                $id_grupo=$op->id;
+            }
+            $opciones=$this->opcion->opcion($id_grupo);
             $datos=[
                 'id'=>$persona->id,
                 'ci'=>$persona->ci,
@@ -112,16 +124,15 @@ if($this->model->insertar($datos)){
                 'telefono'=>$persona->telefono,
                 'direccion' =>$persona->direccion,
                 'genero'=>$persona->genero,
-                'grupos'=>$grupo,
-                'opciones'=>$opcion
+                'grupos'=>$grupos,
+                'opciones'=>$opciones
             ];
             $this->vista('personas/editar',$datos);
         }
            }
            public function borrar($id){
-            $persona=$this->model->optenerId($id);
-            $grupo=$this->grupo->listar();
-            $opcion=$this->opcion->listar();
+            $persona=$this->persona->optenerId($id);
+         
             $datos=[
                 'id'=>$persona->id,
                 'ci'=>$persona->ci,
@@ -131,8 +142,7 @@ if($this->model->insertar($datos)){
                 'telefono'=>$persona->telefono,
                 'direccion' =>$persona->direccion,
                 'genero'=>$persona->genero,
-                'grupos'=>$grupo,
-                'opciones'=>$opcion
+            
               
             ];
             if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -141,7 +151,7 @@ if($this->model->insertar($datos)){
                  'id'=>$id,
             
                 ];
-            if($this->model->eliminar($datos)){
+            if($this->persona->eliminar($datos)){
             
                 redireccionar('/personas');
             
@@ -150,6 +160,26 @@ if($this->model->insertar($datos)){
                 die('algo sali mal');
             }
         }
+        $grupos=$this->grupo->listar();
+        $oo=['id_grupo'=>$grupos];
+        foreach($oo['id_grupo'] as $op){
+            $id_grupo=$op->id;
+        }
+
+        $opciones=$this->opcion->opcion($id_grupo);
+        $datos=[
+            'id'=>$persona->id,
+            'ci'=>$persona->ci,
+            'nombres'=>$persona->nombres,
+            'ap'=>$persona->ap,
+            'am'=>$persona->am,
+            'telefono'=>$persona->telefono,
+            'direccion' =>$persona->direccion,
+            'genero'=>$persona->genero,
+
+             'grupos'=>$grupos,
+            'opciones'=>$opciones,
+        ];
          $this->vista('personas/borrar',$datos);                        
      
 }}
